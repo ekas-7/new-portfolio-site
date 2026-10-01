@@ -85,6 +85,7 @@
 
 .rig {
   position: relative;
+  z-index: 2;
   width: calc(460 * var(--u));
   height: calc(680 * var(--u));
   perspective: calc(1800 * var(--u));
@@ -861,6 +862,20 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.stage[data-tapping="true"] {
+  cursor: progress;
+}
+
+.stage[data-tapping="true"] .badge {
+  cursor: inherit;
+}
+
+.stage[data-tapping="true"] .controls {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .flipButton {
@@ -920,4 +935,10 @@
 .hint[data-focused="true"] {
   background: var(--hint-pill-bg);
   color: var(--hint-pill-fg);
+}
+
+@media (max-width: 560px) {
+  .hint {
+    display: none;
+  }
 }

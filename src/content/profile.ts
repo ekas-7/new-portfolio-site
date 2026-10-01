@@ -19,26 +19,29 @@ export type BadgeContent = {
   division: string;
 };
 
-export type BackIndexEntry = {
-  /** Key into the section files in ./sections; the label and tally come from there. */
-  section: string;
-  href: string | null;
-};
-
 export type BackContent = {
   side: Bilingual;
   title: Bilingual;
   stamp: Bilingual;
   summary: string;
-  index: BackIndexEntry[];
+  /** Keys into the section files in ./sections; each one becomes a room at /<key>. */
+  index: string[];
   found: Bilingual & { email: string };
   serial: string;
+};
+
+export type OfficeContent = {
+  reader: { idle: Bilingual; hint: Bilingual; granted: Bilingual };
+  door: { room: Bilingual; notice: Bilingual };
+  laptop: { host: string; status: string };
+  exit: Bilingual;
 };
 
 export type Profile = {
   meta: { title: string; description: string };
   badge: BadgeContent;
   back: BackContent;
+  office: OfficeContent;
 };
 
 export const profile: Profile = data;

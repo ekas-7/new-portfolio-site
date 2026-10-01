@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent } from "react";
 import {
+  animate,
   motion,
   type MotionValue,
   useMotionTemplate,
@@ -11,7 +14,16 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import type { BackContent, BadgeContent, Bilingual, DetailCell, LabeledValue } from "@/content/profile";
+import { CardReader } from "@/components/card-reader/card-reader";
+import { Door } from "@/components/door/door";
+import type {
+  BackContent,
+  BadgeContent,
+  Bilingual,
+  DetailCell,
+  LabeledValue,
+  OfficeContent,
+} from "@/content/profile";
 import type { BackIndexItem } from "@/content/sections";
 import styles from "./id-badge.module.css";
 
@@ -32,14 +44,40 @@ const pointerSpring = { stiffness: 90, damping: 16, mass: 1.2 };
 const zoomSpring = { stiffness: 120, damping: 20, mass: 1.3 };
 const flipSpring = { stiffness: 70, damping: 13, mass: 1.1 };
 
-const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+/** Set when the badge is tapped so that badging back out lands on the index side. */
+const RETURN_KEY = "badge:return-to-back";
+const TAP_EASE = [0.65, 0, 0.35, 1] as const;
+const GRANTED_HOLD_MS = 450;
 
-export function IdBadge({ content, back }: { content: BadgeContent; back: BadgeBackContent }) {
+const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+type Tap = { href: string; phase: "reading" | "granted" | "closing" };
+
+export function IdBadge({
+  content,
+  back,
+  office,
+}: {
+  content: BadgeContent;
+  back: BadgeBackContent;
+  office: OfficeContent;
+}) {
+  const router = useRouter();
   const reduceMotion = useReducedMotion();
   const badgeRef = useRef<HTMLDivElement>(null);
+  const rigRef = useRef<HTMLDivElement>(null);
+  const readerRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
   const [flipped, setFlipped] = useState(false);
+  const [tap, setTap] = useState<Tap | null>(null);
   const flip = useSpring(0, flipSpring);
+
+  const tapProgress = useMotionValue(0);
+  const tapDX = useMotionValue(0);
+  const tapDY = useMotionValue(0);
+  const tapScale = useMotionValue(1);
+  const press = useMotionValue(0);
 
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
@@ -52,22 +90,29 @@ export function IdBadge({ content, back }: { content: BadgeContent; back: BadgeB
   const zoom = useSpring(1, zoomSpring);
 
   const focus = useTransform(() => clamp((zoom.get() - 1) / (zoomTarget.get() - 1), 0, 1));
-  const tilt = useTransform(() => 1 - (1 - FOCUSED_TILT) * focus.get());
+  const tilt = useTransform(() => (1 - (1 - FOCUSED_TILT) * focus.get()) * (1 - tapProgress.get()));
 
   const rotateY = useTransform(() => x.get() * TILT_Y * tilt.get());
   const rotateX = useTransform(() => -y.get() * TILT_X * tilt.get());
   const translateX = useTransform(() => {
     const f = focus.get();
-    return x.get() * (DRIFT * (1 - f) - panX.get() * f);
+    const p = tapProgress.get();
+    return x.get() * (DRIFT * (1 - f) - panX.get() * f) * (1 - p) + tapDX.get() * p;
   });
   const translateY = useTransform(() => {
     const f = focus.get();
-    return y.get() * (DRIFT * (1 - f) - panY.get() * f);
+    const p = tapProgress.get();
+    return y.get() * (DRIFT * (1 - f) - panY.get() * f) * (1 - p) + tapDY.get() * p;
   });
 
-  const renderScale = useTransform(zoom, (z) => z / RENDER_SCALE);
+  const renderScale = useTransform(() => {
+    const p = tapProgress.get();
+    const travel = 1 + (tapScale.get() - 1) * p;
+    return (zoom.get() / RENDER_SCALE) * travel * (1 - 0.08 * press.get());
+  });
+  const roll = useTransform(() => -10 * tapProgress.get());
   const spin = useTransform(() => rotateY.get() + flip.get());
-  const transform = useMotionTemplate`translate3d(${translateX}px, ${translateY}px, 0) scale3d(${renderScale}, ${renderScale}, ${renderScale}) rotateX(${rotateX}deg) rotateY(${spin}deg)`;
+  const transform = useMotionTemplate`translate3d(${translateX}px, ${translateY}px, 0) scale3d(${renderScale}, ${renderScale}, ${renderScale}) rotateZ(${roll}deg) rotateX(${rotateX}deg) rotateY(${spin}deg)`;
 
   const distance = useTransform(() => Math.min(1, Math.hypot(x.get(), y.get())));
   const glareX = useTransform(x, (v) => 50 + v * 45);
@@ -95,7 +140,7 @@ export function IdBadge({ content, back }: { content: BadgeContent; back: BadgeB
   const shadowX = useTransform(() => -x.get() * 22);
   const shadowY = useTransform(() => 30 - y.get() * 10);
   const shadowScale = useTransform(() => 1 + (zoom.get() - 1) * 0.5);
-  const shadowOpacity = useTransform(() => 0.55 - 0.35 * focus.get());
+  const shadowOpacity = useTransform(() => (0.55 - 0.35 * focus.get()) * (1 - tapProgress.get()));
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -149,6 +194,15 @@ export function IdBadge({ content, back }: { content: BadgeContent; back: BadgeB
   }, [flipped, flip, reduceMotion]);
 
   useEffect(() => {
+    if (sessionStorage.getItem(RETURN_KEY) !== "1") return;
+    sessionStorage.removeItem(RETURN_KEY);
+    flip.jump(180);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sessionStorage only exists after hydration
+    setFlipped(true);
+  }, [flip]);
+
+  useEffect(() => {
+    if (tap) return;
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") setFocused(false);
       const typing = e.target instanceof HTMLElement && e.target.closest("input, textarea, [contenteditable]");
@@ -158,9 +212,38 @@ export function IdBadge({ content, back }: { content: BadgeContent; back: BadgeB
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [tap]);
+
+  const enter = async (href: string) => {
+    if (tap) return;
+    sessionStorage.setItem(RETURN_KEY, "1");
+    if (reduceMotion) {
+      router.push(href);
+      return;
+    }
+
+    router.prefetch(href);
+    setFocused(false);
+    setTap({ href, phase: "reading" });
+
+    const rig = rigRef.current?.getBoundingClientRect();
+    const pad = readerRef.current?.getBoundingClientRect();
+    if (rig && pad) {
+      // Land over the lower part of the plate so its status light stays visible.
+      tapDX.set(pad.left + pad.width / 2 - (rig.left + rig.width / 2));
+      tapDY.set(pad.top + pad.height * 0.72 - (rig.top + rig.height / 2));
+      tapScale.set(clamp((Math.max(pad.width, pad.height) * 1.05) / rig.height, 0.12, 0.5));
+    }
+
+    await animate(tapProgress, 1, { duration: 0.7, ease: TAP_EASE });
+    await animate(press, [0, 1, 0], { duration: 0.32, ease: "easeInOut" });
+    setTap({ href, phase: "granted" });
+    await wait(GRANTED_HOLD_MS);
+    setTap({ href, phase: "closing" });
+  };
 
   const handleStageClick = (e: MouseEvent) => {
+    if (tap) return;
     const target = e.target as Element;
     if (target.closest("a, button")) return;
     const onBadge = badgeRef.current?.contains(target) ?? false;
@@ -176,9 +259,9 @@ export function IdBadge({ content, back }: { content: BadgeContent; back: BadgeB
   };
 
   return (
-    <div className={styles.stage} data-focused={focused} onClick={handleStageClick}>
+    <div className={styles.stage} data-focused={focused} data-tapping={tap !== null} onClick={handleStageClick}>
       <motion.div aria-hidden className={styles.spotlight} style={{ backgroundImage: spotlight }} />
-      <div className={styles.rig}>
+      <div ref={rigRef} className={styles.rig}>
         <motion.div
           aria-hidden
           className={styles.shadow}
@@ -217,11 +300,22 @@ export function IdBadge({ content, back }: { content: BadgeContent; back: BadgeB
           >
             <div className={styles.slot} />
             <div className={styles.rim} />
-            <BadgeBack back={back} />
+            <BadgeBack back={back} onEnter={enter} />
             <Lighting glare={glareBack} {...lighting} />
           </div>
         </motion.div>
       </div>
+
+      <CardReader
+        ref={readerRef}
+        reader={office.reader}
+        visible={flipped || tap !== null}
+        granted={tap !== null && tap.phase !== "reading"}
+      />
+
+      {tap?.phase === "closing" && (
+        <Door door={office.door} mode="closing" onClosed={() => router.push(tap.href)} />
+      )}
 
       <div className={styles.controls}>
         <button type="button" className={styles.flipButton} aria-pressed={flipped} onClick={() => setFlipped((f) => !f)}>
@@ -260,7 +354,7 @@ function Lighting({ glare, glareOpacity, sheen, sheenPosition, sheenOpacity, sha
   );
 }
 
-function BadgeBack({ back }: { back: BadgeBackContent }) {
+function BadgeBack({ back, onEnter }: { back: BadgeBackContent; onEnter: (href: string) => void }) {
   return (
     <div className={styles.card}>
       <div className={styles.magstripe} aria-hidden />
@@ -286,7 +380,7 @@ function BadgeBack({ back }: { back: BadgeBackContent }) {
       <ol className={styles.index}>
         {back.index.map((item) => (
           <li key={item.number}>
-            <IndexRow item={item} />
+            <IndexRow item={item} onEnter={onEnter} />
           </li>
         ))}
       </ol>
@@ -308,9 +402,16 @@ function BadgeBack({ back }: { back: BadgeBackContent }) {
   );
 }
 
-function IndexRow({ item }: { item: BackIndexItem }) {
-  const body = (
-    <>
+function IndexRow({ item, onEnter }: { item: BackIndexItem; onEnter: (href: string) => void }) {
+  return (
+    <Link
+      className={`${styles.indexRow} ${styles.indexLink}`}
+      href={item.href}
+      onNavigate={(e) => {
+        e.preventDefault();
+        onEnter(item.href);
+      }}
+    >
       <span className={styles.indexNumber}>{item.number}</span>
       <span className={styles.indexLabel}>
         <span className={styles.indexJp}>{item.label.jp}</span>
@@ -320,15 +421,7 @@ function IndexRow({ item }: { item: BackIndexItem }) {
       <span className={styles.indexArrow} aria-hidden>
         →
       </span>
-    </>
-  );
-
-  return item.href ? (
-    <a className={`${styles.indexRow} ${styles.indexLink}`} href={item.href}>
-      {body}
-    </a>
-  ) : (
-    <div className={styles.indexRow}>{body}</div>
+    </Link>
   );
 }
 function BadgeCard({ content }: { content: BadgeContent }) {

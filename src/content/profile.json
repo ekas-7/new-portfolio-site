@@ -51,18 +51,25 @@
     "title": { "jp": "職員記録", "en": "PERSONNEL FILE" },
     "stamp": { "jp": "協業歓迎", "en": "OPEN TO COLLAB" },
     "summary": "Software engineer building warehouse systems at Increff. Ex-Microsoft, ex-Prava. ETHGlobal winner who likes distributed systems, data platforms and agentic AI.",
-    "index": [
-      { "section": "experience", "href": null },
-      { "section": "projects", "href": null },
-      { "section": "achievements", "href": null },
-      { "section": "connect", "href": null },
-      { "section": "resume", "href": null }
-    ],
+    "index": ["experience", "projects", "achievements", "connect", "resume"],
     "found": {
       "jp": "拾得された方は下記までご連絡ください",
       "en": "IF FOUND, PLEASE CONTACT",
       "email": "ekasatwal.work@gmail.com"
     },
     "serial": "EA-NITJ-2026"
+  },
+  "office": {
+    "reader": {
+      "idle": { "jp": "タッチしてください", "en": "TAP BADGE" },
+      "hint": { "jp": "目次から選択", "en": "PICK A SECTION" },
+      "granted": { "jp": "認証完了", "en": "ACCESS GRANTED" }
+    },
+    "door": {
+      "room": { "jp": "開発室", "en": "ENGINEERING" },
+      "notice": { "jp": "関係者以外立入禁止", "en": "AUTHORIZED PERSONNEL ONLY" }
+    },
+    "laptop": { "host": "ekas@increff", "status": "WMS 2.0 · BLR" },
+    "exit": { "jp": "退館", "en": "BADGE OUT" }
   }
 }

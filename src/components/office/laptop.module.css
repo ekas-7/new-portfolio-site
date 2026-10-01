@@ -1,0 +1,384 @@
+.room {
+  --stage-bg: radial-gradient(ellipse at 50% 38%, #f5f5f5 0%, #ebebeb 55%, #e1e1e1 100%);
+  --rim: #c9c9cb;
+  --bezel: #0c0c0d;
+  --deck: linear-gradient(180deg, #ececec 0%, #d2d2d2 55%, #a9a9ab 100%);
+  --notch: linear-gradient(180deg, #b4b4b6, #d6d6d8);
+  --floor-shadow: rgba(0, 0, 0, 0.28);
+
+  --screen-bg: #f2f2f2;
+  --window-bg: #fafafa;
+  --ink: #2a2a2a;
+  --on-ink: #ededed;
+  --muted: #7d7d7d;
+  --rule: rgba(0, 0, 0, 0.12);
+  --hover: rgba(0, 0, 0, 0.05);
+
+  --exit-bg: rgba(255, 255, 255, 0.6);
+  --exit-border: rgba(0, 0, 0, 0.1);
+
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  min-height: 100svh;
+  padding: 64px 16px calc(24px + env(safe-area-inset-bottom));
+  overflow: hidden;
+  background: var(--stage-bg);
+  color: var(--ink);
+}
+
+:global(html[data-theme="dark"]) .room {
+  --stage-bg: radial-gradient(ellipse at 50% 38%, #1b1b1e 0%, #0e0e10 55%, #060607 100%);
+  --rim: #38383c;
+  --bezel: #050506;
+  --deck: linear-gradient(180deg, #3c3c40 0%, #26262a 55%, #141416 100%);
+  --notch: linear-gradient(180deg, #19191b, #2e2e32);
+  --floor-shadow: rgba(0, 0, 0, 0.85);
+
+  --screen-bg: #0f0f11;
+  --window-bg: #151517;
+  --ink: #d6d6d6;
+  --on-ink: #141416;
+  --muted: #6c6c72;
+  --rule: rgba(255, 255, 255, 0.1);
+  --hover: rgba(255, 255, 255, 0.05);
+
+  --exit-bg: rgba(28, 28, 31, 0.7);
+  --exit-border: rgba(255, 255, 255, 0.1);
+}
+
+.laptop {
+  --w: min(1120px, 100%, calc((100svh - 190px) * 1.6));
+
+  position: relative;
+  width: var(--w);
+  container-type: inline-size;
+}
+
+.laptop::after {
+  content: "";
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  bottom: -18px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--floor-shadow);
+  filter: blur(18px);
+  z-index: -1;
+}
+
+.lid {
+  position: relative;
+  padding: 2.2cqw 1.8cqw 2.6cqw;
+  border-radius: 18px 18px 4px 4px;
+  background: var(--bezel);
+  box-shadow:
+    0 0 0 2px var(--rim),
+    0 0 0 3px rgba(0, 0, 0, 0.12),
+    0 30px 60px rgba(0, 0, 0, 0.18);
+}
+
+.camera {
+  position: absolute;
+  top: 0.8cqw;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  translate: -50% 0;
+  background: radial-gradient(circle at 35% 35%, #3a3a44, #0a0a0c 70%);
+}
+
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--screen-bg);
+  font-family: var(--font-mono), var(--font-jp), monospace;
+}
+
+.glass {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 38%);
+}
+
+.menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  height: 26px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.host {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.window {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  margin: 12px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--window-bg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.titlebar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: none;
+  height: 30px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.lights {
+  display: flex;
+  gap: 6px;
+}
+
+.lights > span {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  background: var(--hover);
+}
+
+.windowTitle {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.nav {
+  position: relative;
+  flex: none;
+  width: 214px;
+  padding: 14px 10px;
+  overflow-y: auto;
+  border-right: 1px solid var(--rule);
+}
+
+.nav ol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px;
+  border-radius: 6px;
+  color: inherit;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.navLink:hover {
+  background: var(--hover);
+}
+
+.navLink[aria-current="page"] {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+.navLink:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.navNumber {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.navLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.navJp {
+  font-family: var(--font-jp), sans-serif;
+  font-size: 9px;
+  opacity: 0.7;
+}
+
+.navEn {
+  overflow: hidden;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pane {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.base {
+  position: relative;
+  width: 112%;
+  height: 2.4cqw;
+  margin-left: -6%;
+  border-radius: 2px 2px 50% 50% / 2px 2px 100% 100%;
+  background: var(--deck);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 13%;
+  height: 50%;
+  border-radius: 0 0 10px 10px;
+  translate: -50% 0;
+  background: var(--notch);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
+.exit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--exit-border);
+  border-radius: 999px;
+  background: var(--exit-bg);
+  color: var(--ink);
+  font-family: var(--font-mono), var(--font-jp), monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.exit:hover,
+.exit:focus-visible {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--on-ink);
+  outline: none;
+}
+
+/* Phones: a 16:10 screen would be too short to read, so the lid grows to fill the height. */
+@media (max-width: 720px) {
+  .room {
+    gap: 20px;
+    padding-top: 60px;
+  }
+
+  .laptop {
+    --w: 100%;
+  }
+
+  .lid {
+    padding: 14px 8px 16px;
+    border-radius: 14px 14px 4px 4px;
+  }
+
+  .camera {
+    top: 5px;
+  }
+
+  .screen {
+    aspect-ratio: auto;
+    height: calc(100svh - 190px);
+  }
+
+  .base {
+    height: 12px;
+  }
+
+  .window {
+    margin: 8px;
+  }
+
+  .body {
+    flex-direction: column;
+  }
+
+  .nav {
+    width: auto;
+    padding: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav ol {
+    flex-direction: row;
+  }
+
+  .navLink {
+    gap: 8px;
+    padding: 7px 9px;
+  }
+
+  .navJp {
+    display: none;
+  }
+}

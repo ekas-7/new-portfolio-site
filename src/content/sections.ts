@@ -4,23 +4,29 @@ import experienceData from "./sections/experience.json";
 import projectsData from "./sections/projects.json";
 import resumeData from "./sections/resume.json";
 import skillsData from "./sections/skills.json";
-import type { BackIndexEntry, Bilingual } from "./profile";
+import { type Bilingual, profile } from "./profile";
 
 export type Link = { label: string; href: string };
 
-export type Role = {
-  company: string;
-  url: string;
-  role: string;
-  team: string;
+export type Position = {
+  title: string;
   /** YYYY-MM */
   start: string;
   /** YYYY-MM, or null while ongoing */
   end: string | null;
+};
+
+export type Role = {
+  company: string;
+  url: string;
+  team: string;
   location: string;
+  /** Newest first; one company can hold several positions. */
+  positions: Position[];
   /** Ordered most impressive first. */
   highlights: string[];
   stack: string[];
+  links?: Link[];
 };
 
 export type Education = {
@@ -87,36 +93,38 @@ export const sections: Sections = {
 };
 
 export type BackIndexItem = {
+  id: SectionId;
   number: string;
   label: Bilingual;
   tally: string;
-  href: string | null;
+  href: string;
 };
 
-const isSectionId = (id: string): id is SectionId => Object.hasOwn(sections, id);
+export const isSectionId = (id: string): id is SectionId => Object.hasOwn(sections, id);
 
-/** Resolves the back-of-badge index from profile.json against the section files. */
-export function resolveBackIndex(entries: BackIndexEntry[]): BackIndexItem[] {
-  return entries.map((entry, i) => {
-    if (!isSectionId(entry.section)) {
-      throw new Error(`profile.json back.index: unknown section "${entry.section}"`);
-    }
-    return {
-      number: pad(i + 1),
-      label: sections[entry.section].title,
-      tally: sectionTally(entry.section),
-      href: entry.href,
-    };
-  });
+/** The sections listed on the back of the badge, in order; each one is a room at /<id>. */
+export const roomIds: SectionId[] = profile.back.index.map((id) => {
+  if (!isSectionId(id)) throw new Error(`profile.json back.index: unknown section "${id}"`);
+  return id;
+});
+
+export const backIndex: BackIndexItem[] = roomIds.map((id, i) => ({
+  id,
+  number: pad(i + 1),
+  label: sections[id].title,
+  tally: sectionTally(id),
+  href: `/${id}`,
+}));
+
+function pad(n: number) {
+  return String(n).padStart(2, "0");
 }
-
-const pad = (n: number) => String(n).padStart(2, "0");
 
 /** Short tally shown beside each entry on the back of the badge. */
 export function sectionTally(id: SectionId): string {
   switch (id) {
     case "experience":
-      return `${pad(sections.experience.roles.length)} ROLES`;
+      return `${pad(sections.experience.roles.reduce((n, r) => n + r.positions.length, 0))} ROLES`;
     case "projects":
       return `${pad(sections.projects.projects.length)} BUILDS`;
     case "achievements":

@@ -4,48 +4,47 @@
     {
       "company": "Increff",
       "url": "https://www.increff.com/",
-      "role": "SDE",
       "team": "WMS 2.0",
-      "start": "2026-01",
-      "end": null,
       "location": "Bangalore",
+      "positions": [
+        { "title": "SDE 1", "start": "2026-06", "end": null },
+        { "title": "SDE Intern", "start": "2026-01", "end": "2026-06" }
+      ],
       "highlights": [
-        "Engineered a multi-tenant OLAP reporting engine and dynamic charting system using Java, Spring Boot and ClickHouse, overhauling 500+ legacy queries to drive $110K+ MRR.",
-        "Architected an event-driven dark store picking system processing 56,000+ items/day, with dedicated dropzones to streamline delivery partner pickups.",
-        "Reduced end-to-end order processing P90 time by 59% (from 136 to 56 minutes).",
-        "Built a secure JWT embed token system (origin validation, CORS, RBAC) and integrated Microsoft OAuth2 SSO across a distributed microservices architecture.",
-        "Deployed an AI-driven MCP server via Docker, enabling AI assistants (Claude, Cursor) to query warehouse data in natural language.",
-        "Designed an exportable widgets concept with decoupled workflow logic, enabling components to be embedded across different plugins independently.",
-        "Developed an interactive React-based warehouse location designer and backend APIs to visually map footprints and optimize WMS workflows.",
-        "Extended the WMS picking workflow with UOM and bundled SKU support, including substitute source toggling tailored for Crevel Germany.",
-        "Developed an ML algorithm to predict real-time order delivery ETAs for quick commerce workflows."
+        "Built a JWT-based embed token system for securely embedding charts in third-party applications, implementing origin validation, CORS configuration, and role-based authentication filters across the omni-reporting stack",
+        "Developed a warehouse graphical location designer with an interactive grid-based UI, enabling warehouse managers to visually map and edit floor footprints with coordinate upsert APIs on the backend",
+        "Integrated Microsoft OAuth2 authentication into the Increff account service, adding token handling, user session management, and a dedicated controller for third-party SSO login flows",
+        "Extended the WMS picking workflow with UOM (Unit of Measure) and bundled SKU support, enriching order item data flows and updating ledger notifications with structured definitions",
+        "Built a dynamic chart fetching system with multi-tenant ClickHouse support, enabling organizations to connect up to 3 simultaneous database connections and fetch charts dynamically by configuration",
+        "Implemented an MCP (Model Context Protocol) server for WMS, enabling AI assistants like Claude and Cursor to query warehouse data through natural language, with Docker-based testing support",
+        "Added date range validation, error handling, and fallback insert logic to the OLAP analytics service, improving reliability of bulk audit and raw event writes to ClickHouse",
+        "Contributed store picking plan implementations including substitute SKU handling, configurable SKU display fields, OMS substitute source toggling, and task scheduling rule configuration"
       ],
       "stack": ["Java", "Spring Boot", "ClickHouse", "React", "Docker", "MCP"]
     },
     {
       "company": "Prava Payments",
       "url": "https://prava.space",
-      "role": "SDE Intern",
       "team": "Backed by WTF Fund",
-      "start": "2025-08",
-      "end": "2025-12",
       "location": "Remote",
+      "positions": [{ "title": "SDE Intern", "start": "2025-08", "end": "2025-12" }],
       "highlights": [
-        "Shipped a production Shopify extension with ChatGPT-driven checkout; containerized with Docker and provisioned AWS infrastructure (ECS, ECR, S3, CloudFront, Aurora, EC2) via Terraform with automated CI/CD.",
-        "Developed agentic Shopify REST and GraphQL endpoints powering CRUD operations, custom order creation and secure payment confirmation workflows at scale.",
-        "Built Radar (radar.prava.space) to evaluate readiness for agentic commerce via LLM tool calling, CAP and UCP, scoring e-commerce brands across 3 LLM engines to expose competitor leakage.",
-        "Created a Chrome extension integrating Prava APIs with ChatGPT and Perplexity for seamless agentic payments, validating data models using cURL and Supabase."
+        "Agentic Shopify API Development – Built REST & GraphQL agentic endpoints for Shopify, enabling CRUD operations, custom order creation, and secure payment confirmation workflows.",
+        "End-to-End Shopify Extension – Designed and deployed a full Shopify extension integrating ChatGPT for AI-driven payments, leveraging AWS ECS, ECR, S3, CloudFront, CloudWatch, and EC2 with Terraform for Infrastructure as Code.",
+        "Cloud & Backend Infrastructure – Containerized and deployed backend services + Shopify extensions with Docker; configured AWS Aurora for data persistence; implemented automated CI/CD pipelines for reliable deployments.",
+        "AI-Agentic Payments Integration – Created a Chrome extension integrating Prava APIs with ChatGPT & Perplexity, enabling seamless agentic payment execution directly in chat interfaces.",
+        "Testing & Custom Distribution – Validated APIs using cURL and Supabase DB for structured testing and distribution management.",
+        "Agentic Commerce Radar – Built radar.prava.space to evaluate readiness for agentic commerce via LLM tool calling, CAP, and UCP, scoring e-commerce brands across 3 LLM engines to expose competitor leakage."
       ],
-      "stack": ["TypeScript", "Shopify", "GraphQL", "AWS", "Terraform", "Docker"]
+      "stack": ["TypeScript", "Shopify", "GraphQL", "AWS", "Terraform", "Docker", "Supabase"],
+      "links": [{ "label": "Radar", "href": "https://radar.prava.space" }]
     },
     {
       "company": "Microsoft",
       "url": "https://www.microsoft.com/",
-      "role": "SDE Intern",
       "team": "SCHIE · HDTS",
-      "start": "2025-06",
-      "end": "2025-08",
       "location": "Bangalore",
+      "positions": [{ "title": "SDE Intern", "start": "2025-06", "end": "2025-08" }],
       "highlights": [
         "Architected RAG-based AI pipelines that auto-generated PRs to remediate null pointer dereferences and memory leaks, cutting manual code-review overhead by 40%+.",
         "Identified and eliminated 90+ null pointer dereferences and 85+ memory leaks in low-level GPU code across 3+ internal repositories; shipped AI-generated unit tests into CI pipelines.",
