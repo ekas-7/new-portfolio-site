@@ -1,0 +1,44 @@
+{
+  "title": { "jp": "個人開発", "en": "PERSONAL PROJECTS" },
+  "projects": [
+    {
+      "name": "SageX",
+      "tagline": "AI learning platform",
+      "award": null,
+      "description": [
+        "A 2D RPG-style platform to master AI and prompt engineering through an interactive Prompt Arena.",
+        "Gamified progression built on a continuous Attempt → Grade → XP loop."
+      ],
+      "stack": ["Next.js", "Tailwind CSS", "MongoDB", "Groq"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/SageX" },
+        { "label": "Demo", "href": "https://sage-x.vercel.app" }
+      ]
+    },
+    {
+      "name": "Echonet",
+      "tagline": "Decentralized Web3 platform",
+      "award": "1st Place · ETHGlobal New Delhi",
+      "description": [
+        "A Web3 decentralized physical infrastructure network (DePIN) with programmable privacy.",
+        "Won 1st place at ETHGlobal New Delhi against international submissions."
+      ],
+      "stack": ["Next.js", "Tailwind CSS", "Smart Contracts"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/ECHONET-frontend" },
+        { "label": "Demo", "href": "https://echonet-frontend.vercel.app" }
+      ]
+    },
+    {
+      "name": "AnaSy",
+      "tagline": "Event-driven analytics sync platform",
+      "award": null,
+      "description": [
+        "Keeps OLTP thin by publishing fat events once to Kafka for multi-sink consumption.",
+        "OLAP reporting and data warehousing on ClickHouse and DuckDB via a Medallion architecture."
+      ],
+      "stack": ["Java 21", "Spring Boot", "Kafka", "ClickHouse", "DuckDB"],
+      "links": []
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": { "jp": "連絡先", "en": "CONNECT WITH ME" },
+  "pitch": "Open to collaborating on distributed systems, data platforms, agentic AI and hackathon teams. Say hi.",
+  "email": "ekasatwal.work@gmail.com",
+  "links": [
+    { "label": "LinkedIn", "handle": "in/ekas7", "href": "https://www.linkedin.com/in/ekas7" },
+    { "label": "X", "handle": "@ekas_7", "href": "https://x.com/ekas_7" },
+    { "label": "GitHub", "handle": "ekas-7", "href": "https://github.com/ekas-7" },
+    { "label": "LeetCode", "handle": "Atwal7", "href": "https://leetcode.com/u/Atwal7/" },
+    { "label": "Codeforces", "handle": "ekas_7", "href": "https://codeforces.com/profile/ekas_7" },
+    { "label": "Website", "handle": "ekas.codes", "href": "https://ekas.codes" }
+  ]
+}

@@ -22,6 +22,10 @@
   --hint: #8a8a8a;
   --hint-pill-bg: rgba(42, 42, 42, 0.82);
   --hint-pill-fg: #e6e6e6;
+  --flip-bg: rgba(255, 255, 255, 0.6);
+  --flip-border: rgba(0, 0, 0, 0.1);
+  --flip-fg: #2a2a2a;
+  --stripe: linear-gradient(180deg, #1b1b1c 0%, #2c2c2e 45%, #161617 100%);
 
   position: relative;
   display: grid;
@@ -52,6 +56,10 @@
   --hint: #5c5c61;
   --hint-pill-bg: rgba(230, 230, 230, 0.9);
   --hint-pill-fg: #141414;
+  --flip-bg: rgba(28, 28, 31, 0.7);
+  --flip-border: rgba(255, 255, 255, 0.1);
+  --flip-fg: #d2d2d2;
+  --stripe: linear-gradient(180deg, #050506 0%, #121214 45%, #040405 100%);
 }
 
 /* Faint dot grid that fades out toward the edges, dark theme only. */
@@ -126,6 +134,7 @@
   inset: 0;
   overflow: hidden;
   isolation: isolate;
+  backface-visibility: hidden;
   border-radius: calc(44 * var(--u));
   background:
     radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 60%),
@@ -594,6 +603,232 @@
   right: calc(14 * var(--u));
 }
 
+/* ---------- reverse side ---------- */
+
+.magstripe {
+  position: absolute;
+  top: calc(24 * var(--u));
+  left: 0;
+  right: 0;
+  height: calc(36 * var(--u));
+  background: var(--stripe);
+  box-shadow:
+    inset 0 var(--line) 0 rgba(255, 255, 255, 0.08),
+    inset 0 calc(-1 * var(--line)) 0 rgba(0, 0, 0, 0.4);
+}
+
+.backHeader {
+  position: absolute;
+  top: calc(78 * var(--u));
+  left: calc(11 * var(--u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(6 * var(--u));
+  line-height: 1;
+}
+
+.backSide {
+  font-family: var(--font-mono), var(--font-jp), monospace;
+  font-size: calc(7 * var(--u));
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+}
+
+.backTitleJp {
+  margin-top: calc(2 * var(--u));
+  font-family: var(--font-jp), sans-serif;
+  font-size: calc(22 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.backTitleEn {
+  font-size: calc(11 * var(--u));
+  letter-spacing: 0.36em;
+}
+
+.stampBack {
+  top: calc(76 * var(--u));
+}
+
+.summary {
+  position: absolute;
+  top: calc(152 * var(--u));
+  left: calc(11 * var(--u));
+  right: calc(11 * var(--u));
+  margin: 0;
+  font-size: calc(8.6 * var(--u));
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.index {
+  position: absolute;
+  top: calc(206 * var(--u));
+  left: calc(11 * var(--u));
+  right: calc(11 * var(--u));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block: var(--line) solid var(--ink);
+}
+
+.index > li + li {
+  border-top: var(--line) solid var(--ink);
+}
+
+.indexRow {
+  display: grid;
+  grid-template-columns: calc(46 * var(--u)) 1fr auto calc(26 * var(--u));
+  align-items: center;
+  height: calc(50 * var(--u));
+  padding-left: calc(8 * var(--u));
+  color: inherit;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.indexNumber {
+  font-size: calc(17 * var(--u));
+  font-weight: 500;
+}
+
+.indexLabel {
+  display: flex;
+  flex-direction: column;
+  gap: calc(5 * var(--u));
+}
+
+.indexJp {
+  font-family: var(--font-jp), sans-serif;
+  font-size: calc(8 * var(--u));
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.indexEn {
+  font-size: calc(12.5 * var(--u));
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.indexTally {
+  font-size: calc(7.5 * var(--u));
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+.indexArrow {
+  font-size: calc(13 * var(--u));
+  text-align: center;
+  opacity: 0.3;
+}
+
+.indexLink {
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.indexLink .indexArrow {
+  opacity: 1;
+}
+
+.indexLink:hover,
+.indexLink:focus-visible {
+  background: var(--ink);
+  color: var(--on-ink);
+  outline: none;
+}
+
+.backFooter {
+  position: absolute;
+  top: calc(486 * var(--u));
+  left: calc(11 * var(--u));
+  right: calc(11 * var(--u));
+  bottom: calc(18 * var(--u));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: calc(16 * var(--u));
+}
+
+.barcodeBlock {
+  display: flex;
+  flex-direction: column;
+  gap: calc(6 * var(--u));
+  line-height: 1;
+}
+
+.barcode {
+  display: block;
+  width: calc(132 * var(--u));
+  height: calc(44 * var(--u));
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 calc(2 * var(--u)),
+    transparent calc(2 * var(--u)) calc(3.5 * var(--u)),
+    var(--ink) calc(3.5 * var(--u)) calc(4.5 * var(--u)),
+    transparent calc(4.5 * var(--u)) calc(7 * var(--u)),
+    var(--ink) calc(7 * var(--u)) calc(10 * var(--u)),
+    transparent calc(10 * var(--u)) calc(11 * var(--u)),
+    var(--ink) calc(11 * var(--u)) calc(12 * var(--u)),
+    transparent calc(12 * var(--u)) calc(13.5 * var(--u)),
+    var(--ink) calc(13.5 * var(--u)) calc(15 * var(--u)),
+    transparent calc(15 * var(--u)) calc(18 * var(--u))
+  );
+}
+
+.serial {
+  font-size: calc(7.5 * var(--u));
+  letter-spacing: 0.3em;
+}
+
+.found {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(5 * var(--u));
+  line-height: 1;
+  text-align: right;
+}
+
+.foundJp {
+  font-family: var(--font-jp), sans-serif;
+  font-size: calc(7 * var(--u));
+  opacity: 0.75;
+}
+
+.foundEn {
+  font-size: calc(7 * var(--u));
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+}
+
+.foundEmail {
+  margin-top: calc(3 * var(--u));
+  padding: calc(5 * var(--u)) calc(8 * var(--u));
+  border: var(--line) solid var(--ink);
+  color: inherit;
+  font-size: calc(9 * var(--u));
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.foundEmail:hover,
+.foundEmail:focus-visible {
+  background: var(--ink);
+  color: var(--on-ink);
+  outline: none;
+}
+
 /* ---------- light ---------- */
 
 .glare,
@@ -618,11 +853,56 @@
   mix-blend-mode: multiply;
 }
 
-.hint {
+.controls {
   position: absolute;
-  bottom: calc(16px + env(safe-area-inset-bottom));
+  bottom: calc(14px + env(safe-area-inset-bottom));
   left: 50%;
   translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flipButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--flip-border);
+  border-radius: 999px;
+  background: var(--flip-bg);
+  color: var(--flip-fg);
+  font-family: var(--font-mono), var(--font-jp), monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.flipButton > span {
+  display: inline-block;
+  font-size: 13px;
+  transition: rotate 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.flipButton[aria-pressed="true"] > span {
+  rotate: 180deg;
+}
+
+.flipButton:hover,
+.flipButton:focus-visible {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--on-ink);
+  outline: none;
+}
+
+.hint {
   padding: 6px 14px 6px calc(14px + 0.24em);
   border-radius: 999px;
   color: var(--hint);

@@ -45,5 +45,24 @@
       ]
     },
     "division": "INCREFF ENGINEERING"
+  },
+  "back": {
+    "side": { "jp": "裏面", "en": "REVERSE" },
+    "title": { "jp": "職員記録", "en": "PERSONNEL FILE" },
+    "stamp": { "jp": "協業歓迎", "en": "OPEN TO COLLAB" },
+    "summary": "Software engineer building warehouse systems at Increff. Ex-Microsoft, ex-Prava. ETHGlobal winner who likes distributed systems, data platforms and agentic AI.",
+    "index": [
+      { "section": "experience", "href": null },
+      { "section": "projects", "href": null },
+      { "section": "achievements", "href": null },
+      { "section": "connect", "href": null },
+      { "section": "resume", "href": null }
+    ],
+    "found": {
+      "jp": "拾得された方は下記までご連絡ください",
+      "en": "IF FOUND, PLEASE CONTACT",
+      "email": "ekasatwal.work@gmail.com"
+    },
+    "serial": "EA-NITJ-2026"
   }
 }

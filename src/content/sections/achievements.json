@@ -1,0 +1,39 @@
+{
+  "title": { "jp": "実績", "en": "ACHIEVEMENTS" },
+  "hackathons": [
+    { "event": "ETHGlobal", "result": "1st", "track": "Hypergraph" },
+    { "event": "ETHGlobal", "result": "4th", "track": "Fetch.AI" },
+    { "event": "HackTU 6.0", "result": "2nd Runner-Up", "track": "Best Gen AI" },
+    { "event": "Electothon 7.0", "result": "Winner", "track": "Best MongoDB Use Case" },
+    { "event": "Hack CBS 7.0", "result": "Winner", "track": "TON Track" }
+  ],
+  "security": [
+    { "target": "Canadian PR Portal", "finding": "Discovered an API payload validation flaw" },
+    { "target": "NITJ Placement Portal", "finding": "Found a critical authentication flaw" },
+    { "target": "NITJ Hostel Portal", "finding": "Exposed broken access control" }
+  ],
+  "competitive": [
+    {
+      "platform": "LeetCode",
+      "handle": "Atwal7",
+      "solved": "1000+",
+      "rank": "Guardian",
+      "rating": "1850+",
+      "href": "https://leetcode.com/u/Atwal7/"
+    },
+    {
+      "platform": "Codeforces",
+      "handle": "ekas_7",
+      "solved": "350+",
+      "rank": "Specialist",
+      "rating": "1403",
+      "href": "https://codeforces.com/profile/ekas_7"
+    }
+  ],
+  "academics": ["Ranked within the top 5% of my batch at NIT Jalandhar."],
+  "certifications": [
+    "100xDevs: Full Stack + DevOps",
+    "Machine Learning Specialization: Stanford + Andrew Ng"
+  ],
+  "clubs": ["GDG on Campus: Web Team Core"]
+}

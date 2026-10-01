@@ -1,0 +1,12 @@
+{
+  "title": { "jp": "技術", "en": "SKILLS" },
+  "groups": [
+    { "label": "Languages", "items": ["TypeScript", "JavaScript", "Java", "Python", "C++"] },
+    { "label": "Frontend", "items": ["React", "Next.js", "Angular", "HTML/CSS"] },
+    { "label": "Backend", "items": ["Spring Boot", "Node.js", "Express", "FastAPI"] },
+    { "label": "Databases", "items": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "ClickHouse"] },
+    { "label": "DevOps", "items": ["Docker", "Kubernetes", "Git", "Terraform", "Jenkins"] },
+    { "label": "AI/ML", "items": ["LangChain", "OpenAI", "Ollama", "Pandas"] },
+    { "label": "Observability", "items": ["Grafana", "Elasticsearch"] }
+  ]
+}

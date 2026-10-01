@@ -19,9 +19,26 @@ export type BadgeContent = {
   division: string;
 };
 
+export type BackIndexEntry = {
+  /** Key into the section files in ./sections; the label and tally come from there. */
+  section: string;
+  href: string | null;
+};
+
+export type BackContent = {
+  side: Bilingual;
+  title: Bilingual;
+  stamp: Bilingual;
+  summary: string;
+  index: BackIndexEntry[];
+  found: Bilingual & { email: string };
+  serial: string;
+};
+
 export type Profile = {
   meta: { title: string; description: string };
   badge: BadgeContent;
+  back: BackContent;
 };
 
 export const profile: Profile = data;
