@@ -364,26 +364,88 @@
     flex-direction: column;
   }
 
+  /* Every section stays visible: the current one is a wide labelled tab, the rest shrink to their numbers. */
   .nav {
+    container: nav / inline-size;
     width: auto;
     padding: 8px;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: visible;
     border-right: 0;
     border-bottom: 1px solid var(--rule);
   }
 
   .nav ol {
     flex-direction: row;
+    gap: 3px;
+  }
+
+  .nav li {
+    display: flex;
+    flex: none;
+    min-width: 0;
+  }
+
+  .nav li[data-active] {
+    flex: 1 1 auto;
   }
 
   .navLink {
-    gap: 8px;
-    padding: 7px 9px;
+    flex: 1;
+    gap: 0;
+    min-width: 0;
+    padding: 10px 6px;
+    border: 1px solid var(--rule);
+  }
+
+  .nav li[data-active] .navLink {
+    padding-inline: 10px;
+  }
+
+  .navLink[aria-current="page"] {
+    border-color: var(--ink);
+  }
+
+  .navNumber {
+    opacity: 0.75;
+  }
+
+  .navLabel {
+    display: grid;
+    grid-template-columns: 0fr;
+    margin-left: 0;
+    transition:
+      grid-template-columns 0.35s ease,
+      margin-left 0.35s ease;
+  }
+
+  .navEn {
+    min-width: 0;
+    letter-spacing: 0.06em;
+  }
+
+  .nav li[data-active] .navLabel {
+    grid-template-columns: 1fr;
+    margin-left: 8px;
   }
 
   .navJp {
     display: none;
+  }
+
+  @container nav (max-width: 300px) {
+    .nav li[data-active] .navNumber {
+      display: none;
+    }
+
+    .nav li[data-active] .navLabel {
+      margin-left: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .navLabel {
+      transition: none;
+    }
   }
 }
 
