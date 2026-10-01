@@ -4,7 +4,7 @@ export type Bilingual = { jp: string; en: string };
 
 export type LabeledValue = { label: Bilingual; value: Bilingual };
 
-export type DetailCell = { label: string; value: string };
+export type DetailCell = { label: string; value: string; href?: string };
 
 export type ImageAsset = { src: string; alt: string };
 

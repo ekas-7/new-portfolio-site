@@ -505,6 +505,26 @@
   letter-spacing: 0.03em;
 }
 
+.cellLink {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.cellLink .cellValue::after {
+  content: " ↗";
+}
+
+.cellLink:hover,
+.cellLink:focus-visible {
+  background: var(--ink);
+  color: var(--on-ink);
+  outline: none;
+}
+
 .logoCell {
   display: grid;
   place-items: center;

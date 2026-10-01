@@ -12,7 +12,7 @@
     "fields": [
       {
         "label": { "jp": "所属部署", "en": "DEPARTMENT" },
-        "value": { "jp": "エンジニアリング部", "en": "ENGINEERING" }
+        "value": { "jp": "WMS 2.0 開発チーム", "en": "WMS 2.0" }
       },
       {
         "label": { "jp": "役職", "en": "TITLE" },
@@ -30,14 +30,18 @@
     },
     "details": {
       "start": [
-        { "label": "インクレフ", "value": "INCREFF" },
-        { "label": "発行日", "value": "ISSUED: 2026.01" },
-        { "label": "勤務地", "value": "LOCATION: BANGALORE" }
+        { "label": "インクレフ", "value": "INCREFF", "href": "https://www.increff.com/" },
+        { "label": "ウェブサイト", "value": "ekas.codes", "href": "https://ekas.codes" },
+        {
+          "label": "勤務地",
+          "value": "LOCATION: BLR",
+          "href": "https://www.google.com/maps/dir//Increff,+3rd+Floor,+The+Hub+Unit+1,+Sarjapur+-+Marathahalli+Rd,+Bellandur,+Bengaluru,+Karnataka+560103/@12.9140667,77.6650655,4456m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3bae1371e2c515cf:0xa9896192b578667a!2m2!1d77.6686651!2d12.9207576!5m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D"
+        }
       ],
       "end": [
-        { "label": "ソーシャルメディア", "value": "@ekas-7" },
-        { "label": "DATE JOINED", "value": "2026.01" },
-        { "label": "ID NUMBER", "value": "IF-26-0007" }
+        { "label": "X", "value": "@ekas_7", "href": "https://x.com/ekas_7" },
+        { "label": "LINKEDIN", "value": "in/ekas7", "href": "https://www.linkedin.com/in/ekas7" },
+        { "label": "GITHUB", "value": "ekas-7", "href": "https://github.com/ekas-7" }
       ]
     },
     "division": "INCREFF ENGINEERING"

@@ -139,11 +139,14 @@ export function IdBadge({ content }: { content: BadgeContent }) {
   }, [focused]);
 
   const handleStageClick = (e: MouseEvent) => {
-    const onBadge = badgeRef.current?.contains(e.target as Node) ?? false;
+    const target = e.target as Element;
+    if (target.closest("a")) return;
+    const onBadge = badgeRef.current?.contains(target) ?? false;
     setFocused((f) => (f ? false : onBadge));
   };
 
   const handleBadgeKey = (e: KeyboardEvent) => {
+    if (e.target !== e.currentTarget) return;
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       setFocused((f) => !f);
@@ -162,10 +165,9 @@ export function IdBadge({ content }: { content: BadgeContent }) {
 
         <motion.div
           ref={badgeRef}
-          role="button"
+          role="group"
           tabIndex={0}
-          aria-pressed={focused}
-          aria-label={`ID badge for ${content.name.value.en}. ${focused ? "Click to return" : "Click to inspect"}`}
+          aria-label={`ID badge for ${content.name.value.en}. Press Enter to ${focused ? "zoom out" : "zoom in"}.`}
           onKeyDown={handleBadgeKey}
           className={styles.badge}
           style={{ transform }}
@@ -289,12 +291,26 @@ function Field({ field, index }: { field: LabeledValue; index: number }) {
 function DetailColumn({ cells, align = "start" }: { cells: DetailCell[]; align?: "start" | "end" }) {
   return (
     <div className={styles.column} data-align={align}>
-      {cells.map((cell) => (
-        <div key={cell.label} className={styles.cell}>
-          <span className={styles.cellLabel}>{cell.label}</span>
-          <span className={styles.cellValue}>{cell.value}</span>
-        </div>
-      ))}
+      {cells.map((cell) =>
+        cell.href ? (
+          <a
+            key={cell.label}
+            className={`${styles.cell} ${styles.cellLink}`}
+            href={cell.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${cell.label}: ${cell.value} (opens in a new tab)`}
+          >
+            <span className={styles.cellLabel}>{cell.label}</span>
+            <span className={styles.cellValue}>{cell.value}</span>
+          </a>
+        ) : (
+          <div key={cell.label} className={styles.cell}>
+            <span className={styles.cellLabel}>{cell.label}</span>
+            <span className={styles.cellValue}>{cell.value}</span>
+          </div>
+        ),
+      )}
     </div>
   );
 }
