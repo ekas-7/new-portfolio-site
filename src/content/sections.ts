@@ -44,6 +44,8 @@ export type Project = {
   name: string;
   tagline: string;
   award: string | null;
+  /** Featured projects get a full card; the rest are listed compactly below. */
+  featured: boolean;
   description: string[];
   stack: string[];
   links: Link[];

@@ -50,9 +50,10 @@ export function Laptop({
       </div>
 
       <div className={styles.controls}>
-        <Link href="/" className={styles.exit}>
+        <Link href="/" className={styles.exit} aria-label={`${office.exit.jp} · ${office.exit.en}`}>
           <span aria-hidden>←</span>
-          {office.exit.jp} · {office.exit.en}
+          {office.exit.jp}
+          <span className={styles.exitEn}>· {office.exit.en}</span>
         </Link>
       </div>
     </div>

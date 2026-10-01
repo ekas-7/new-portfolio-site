@@ -118,3 +118,5 @@ src/
 ## Credits
 
 Badge design inspired by a Japanese-style ID card concept by Adi. Increff logo © Increff.
+
+Card reader sound: [Electronic Door Opening](https://freesound.org/people/alegemaate/sounds/364688/) by Allan Legemaate (alegemaate), CC0, via Freesound.

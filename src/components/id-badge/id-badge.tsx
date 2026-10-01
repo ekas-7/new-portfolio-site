@@ -15,6 +15,7 @@ import {
   useTransform,
 } from "motion/react";
 import { CardReader } from "@/components/card-reader/card-reader";
+import { playReaderSound, preloadReaderSound } from "@/components/card-reader/reader-sound";
 import { Door } from "@/components/door/door";
 import type {
   BackContent,
@@ -47,6 +48,7 @@ const flipSpring = { stiffness: 70, damping: 13, mass: 1.1 };
 /** Set when the badge is tapped so that badging back out lands on the index side. */
 const RETURN_KEY = "badge:return-to-back";
 const TAP_EASE = [0.65, 0, 0.35, 1] as const;
+const TAP_TRAVEL_S = 0.7;
 const GRANTED_HOLD_MS = 450;
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
@@ -214,9 +216,12 @@ export function IdBadge({
     return () => window.removeEventListener("keydown", onKey);
   }, [tap]);
 
+  useEffect(() => preloadReaderSound(office.reader.sound), [office.reader.sound]);
+
   const enter = async (href: string) => {
     if (tap) return;
     sessionStorage.setItem(RETURN_KEY, "1");
+    playReaderSound(office.reader.sound, reduceMotion ? 0 : TAP_TRAVEL_S);
     if (reduceMotion) {
       router.push(href);
       return;
@@ -235,7 +240,7 @@ export function IdBadge({
       tapScale.set(clamp((Math.max(pad.width, pad.height) * 1.05) / rig.height, 0.12, 0.5));
     }
 
-    await animate(tapProgress, 1, { duration: 0.7, ease: TAP_EASE });
+    await animate(tapProgress, 1, { duration: TAP_TRAVEL_S, ease: TAP_EASE });
     await animate(press, [0, 1, 0], { duration: 0.32, ease: "easeInOut" });
     setTap({ href, phase: "granted" });
     await wait(GRANTED_HOLD_MS);

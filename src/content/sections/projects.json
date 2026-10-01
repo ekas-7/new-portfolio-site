@@ -2,9 +2,26 @@
   "title": { "jp": "個人開発", "en": "PERSONAL PROJECTS" },
   "projects": [
     {
+      "name": "Echonet",
+      "tagline": "DePIN for real-world sound data",
+      "award": "1st Place · ETHGlobal New Delhi",
+      "featured": true,
+      "description": [
+        "A DePIN that rewards providers of validated, real-world sound data with on-chain crypto.",
+        "Won 1st place at ETHGlobal New Delhi against international submissions."
+      ],
+      "stack": ["Next.js", "Smart Contracts", "The Graph", "IPFS", "Hardware", "CI/CD"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/Saurabh-0312/ECHONET" },
+        { "label": "Demo", "href": "https://echonet-frontend.vercel.app" },
+        { "label": "Video", "href": "https://youtu.be/0onUl0kPEDo" }
+      ]
+    },
+    {
       "name": "SageX",
       "tagline": "AI learning platform",
       "award": null,
+      "featured": true,
       "description": [
         "A 2D RPG-style platform to master AI and prompt engineering through an interactive Prompt Arena.",
         "Gamified progression built on a continuous Attempt → Grade → XP loop."
@@ -16,29 +33,203 @@
       ]
     },
     {
-      "name": "Echonet",
-      "tagline": "Decentralized Web3 platform",
-      "award": "1st Place · ETHGlobal New Delhi",
+      "name": "Dev Mux",
+      "tagline": "AI-powered dev collaboration",
+      "award": null,
+      "featured": true,
       "description": [
-        "A Web3 decentralized physical infrastructure network (DePIN) with programmable privacy.",
-        "Won 1st place at ETHGlobal New Delhi against international submissions."
+        "A collaboration platform with video calls, code editing and a whiteboard, kept in real-time sync via LiveKit and CodeSandbox.",
+        "Brings system design, coding and team communication into one workspace."
       ],
-      "stack": ["Next.js", "Tailwind CSS", "Smart Contracts"],
+      "stack": ["Node.js", "LiveKit", "WebRTC", "WebSockets", "Prisma", "PostgreSQL", "Docker"],
       "links": [
-        { "label": "GitHub", "href": "https://github.com/ekas-7/ECHONET-frontend" },
-        { "label": "Demo", "href": "https://echonet-frontend.vercel.app" }
+        { "label": "GitHub", "href": "https://github.com/ekas-7/DevMux" },
+        { "label": "Video", "href": "https://youtu.be/GfUFaTmD7oo" }
+      ]
+    },
+    {
+      "name": "Agamify",
+      "tagline": "Cross-framework code migration agent",
+      "award": null,
+      "featured": true,
+      "description": [
+        "An intelligent agent that migrates web application code across frontend frameworks, streamlining cross-framework development and modernization workflows."
+      ],
+      "stack": ["AI Agents", "RAG", "Code Migration", "Frontend"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/Agamify" },
+        { "label": "Video", "href": "https://youtu.be/wdHqQIuspdc" }
       ]
     },
     {
       "name": "AnaSy",
       "tagline": "Event-driven analytics sync platform",
       "award": null,
+      "featured": true,
       "description": [
         "Keeps OLTP thin by publishing fat events once to Kafka for multi-sink consumption.",
         "OLAP reporting and data warehousing on ClickHouse and DuckDB via a Medallion architecture."
       ],
       "stack": ["Java 21", "Spring Boot", "Kafka", "ClickHouse", "DuckDB"],
       "links": []
+    },
+    {
+      "name": "Dhaniverse",
+      "tagline": "Financial literacy as a 2D RPG",
+      "award": null,
+      "featured": true,
+      "description": [
+        "A gamified open-world 2D RPG that teaches financial literacy through real-life money simulations.",
+        "Chunked maps, with on-chain banking and leaderboards on ICP."
+      ],
+      "stack": ["React", "Phaser 3", "Deno", "MongoDB", "WebSockets", "ICP"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/Davinder1436/dhaniverse" },
+        { "label": "Video", "href": "https://youtu.be/AhxIUaZny2k" }
+      ]
+    },
+    {
+      "name": "Zing Guru",
+      "tagline": "AI learning ecosystem",
+      "award": null,
+      "featured": false,
+      "description": ["Study paths, gamified modules and 24/7 RAG-powered AI support."],
+      "stack": ["React", "Node.js", "LangChain", "OpenAI", "PostgreSQL", "Foundry"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/sage-zingguru" },
+        { "label": "Demo", "href": "https://sage-zingguru.vercel.app/" },
+        { "label": "Video", "href": "https://youtu.be/tBbk4axjduw" }
+      ]
+    },
+    {
+      "name": "Jiva",
+      "tagline": "Healthcare tracking platform",
+      "award": null,
+      "featured": false,
+      "description": [
+        "Connects patients with healthcare providers and centralizes medical history in one secure place."
+      ],
+      "stack": ["React", "Flutter", "FastAPI", "Node.js", "MongoDB", "AWS", "RAG", "Gemini"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/itzzGaurav7/jiva-sage" },
+        { "label": "Demo", "href": "https://jiva-sage.vercel.app" },
+        { "label": "Video", "href": "https://youtu.be/0154CRk0VZU" }
+      ]
+    },
+    {
+      "name": "Walmart Hackathon",
+      "tagline": "Agentic e-commerce extension",
+      "award": null,
+      "featured": false,
+      "description": ["A responsive, performant shopping extension built for an agentic AI environment."],
+      "stack": ["React", "Vite", "Tailwind CSS", "Node.js", "Express", "Agentic AI"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/Walmart_hackathon" },
+        { "label": "Video", "href": "https://youtu.be/ZY4vKH_Wx_o" }
+      ]
+    },
+    {
+      "name": "Aurea",
+      "tagline": "Skin condition screening",
+      "award": null,
+      "featured": false,
+      "description": [
+        "Brings skin condition screening to small towns that lack access to specialists, using machine learning."
+      ],
+      "stack": ["React", "Node.js", "Express", "MongoDB", "Machine Learning"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/Aurea" },
+        { "label": "Demo", "href": "https://noobz-1.onrender.com/" },
+        { "label": "Video", "href": "https://youtu.be/4hEOXCBb89o" }
+      ]
+    },
+    {
+      "name": "Skill Sensei",
+      "tagline": "Skill-swap platform",
+      "award": null,
+      "featured": false,
+      "description": ["List skills you offer, request skills you want, and match with others for learning swaps."],
+      "stack": ["Next.js", "TypeScript"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/Skill-Sensai" },
+        { "label": "Demo", "href": "https://skill-sensai.vercel.app/" },
+        { "label": "Video", "href": "https://youtu.be/l--B2RSduJY" }
+      ]
+    },
+    {
+      "name": "Drishti",
+      "tagline": "Psychometric testing software",
+      "award": null,
+      "featured": false,
+      "description": ["Built for a global psychological services startup to administer RIASEC and DISC tests."],
+      "stack": ["Next.js", "TypeScript", "Tailwind CSS"],
+      "links": [{ "label": "Demo", "href": "https://drishti-dnro.vercel.app/" }]
+    },
+    {
+      "name": "Blog It",
+      "tagline": "Medium-style blogging app",
+      "award": null,
+      "featured": false,
+      "description": ["Built from scratch and deployed on Vercel and Cloudflare Workers."],
+      "stack": ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Cloudflare Workers"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/Blog-It" },
+        { "label": "Demo", "href": "https://blog-it-frontend-gules.vercel.app/" }
+      ]
+    },
+    {
+      "name": "Web-based Wallet",
+      "tagline": "Ethereum & Solana wallet demo",
+      "award": null,
+      "featured": false,
+      "description": ["A lightweight crypto wallet with Ethereum and Solana integrations."],
+      "stack": ["React", "Vite", "Ethereum", "Solana"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/Web-based-wallet" },
+        { "label": "Demo", "href": "https://web-based-wallet-seven.vercel.app/" }
+      ]
+    },
+    {
+      "name": "npx ekas",
+      "tagline": "CLI business card",
+      "award": null,
+      "featured": false,
+      "description": ["A personal card in the terminal, shared with a single npx command."],
+      "stack": ["Node.js", "CLI", "npm"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/npx-ekas" },
+        { "label": "npm", "href": "https://www.npmjs.com/package/ekas" }
+      ]
+    },
+    {
+      "name": "Chat-App",
+      "tagline": "Real-time messaging",
+      "award": null,
+      "featured": false,
+      "description": ["Instant text conversations over Socket.IO."],
+      "stack": ["React", "Socket.IO", "Node.js", "Express", "MongoDB"],
+      "links": [{ "label": "GitHub", "href": "https://github.com/ekas-7/Chat-App" }]
+    },
+    {
+      "name": "macOS Portfolio",
+      "tagline": "Previous portfolio",
+      "award": null,
+      "featured": false,
+      "description": ["A macOS-themed portfolio with windows, a dock, a terminal and a music player."],
+      "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+      "links": [
+        { "label": "GitHub", "href": "https://github.com/ekas-7/MAC-OS-Themed-Portfolio" },
+        { "label": "Demo", "href": "https://ekas.codes" }
+      ]
+    },
+    {
+      "name": "Anemia Detection",
+      "tagline": "Embedded health screening",
+      "award": null,
+      "featured": false,
+      "description": ["A personalized anemia detection framework for custom Raspberry Pi hardware."],
+      "stack": ["Python", "Computer Vision", "Embedded"],
+      "links": [{ "label": "GitHub", "href": "https://github.com/ekas-7/Anemia-detection-pi" }]
     }
   ]
 }

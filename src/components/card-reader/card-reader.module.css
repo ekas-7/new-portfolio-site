@@ -1,21 +1,24 @@
-/* Positioned beside the badge rig; relies on --base-u from the badge stage. */
+/*
+ * Two placements, chosen by the same media query as the badge stage:
+ * - below (default): lying on its side in the strip the stage reserves under the badge;
+ * - side: standing in the free space right of the badge, scaled by --r to fit short screens.
+ */
 .reader {
   --plate: linear-gradient(160deg, #3a3a3d 0%, #1e1e20 55%, #141416 100%);
   --plate-rim: linear-gradient(180deg, #f4f4f4, #cfcfcf);
-  --led-off: #6b2a2a;
   --led-idle: #d64545;
   --led-ok: #3ccf6e;
   --label: #2a2a2a;
   --label-muted: #8a8a8a;
 
   position: absolute;
-  top: 50%;
-  left: calc(50% + 230 * var(--base-u) + clamp(40px, 6vw, 96px));
+  left: 50%;
+  bottom: calc(58px + env(safe-area-inset-bottom));
+  z-index: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 18px;
-  translate: 24px -50%;
+  gap: 14px;
+  translate: -50% 16px;
   opacity: 0;
   pointer-events: none;
   transition:
@@ -31,7 +34,7 @@
 }
 
 .reader[data-visible="true"] {
-  translate: 0 -50%;
+  translate: -50% 0;
   opacity: 1;
 }
 
@@ -39,27 +42,28 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: 112px;
-  height: 176px;
-  border: 6px solid transparent;
-  border-radius: 22px;
+  flex: none;
+  width: 92px;
+  height: 56px;
+  border: 4px solid transparent;
+  border-radius: 12px;
   background:
     var(--plate) padding-box,
     var(--plate-rim) border-box;
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.25),
+    0 12px 28px rgba(0, 0, 0, 0.22),
     0 2px 6px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .led {
   position: absolute;
-  top: 14px;
-  left: 50%;
-  width: 34px;
-  height: 5px;
+  top: 50%;
+  left: 9px;
+  width: 4px;
+  height: 20px;
   border-radius: 999px;
-  translate: -50% 0;
+  translate: 0 -50%;
   background: var(--led-idle);
   box-shadow: 0 0 10px var(--led-idle);
   animation: blink 1.6s ease-in-out infinite;
@@ -74,9 +78,8 @@
 }
 
 .waves {
-  width: 46px;
-  height: 46px;
-  rotate: -90deg;
+  width: 26px;
+  height: 26px;
   color: rgba(255, 255, 255, 0.55);
   stroke: currentColor;
   stroke-width: 2.4;
@@ -95,119 +98,143 @@
 
 .grille {
   position: absolute;
-  bottom: 16px;
-  left: 50%;
-  width: 40px;
-  height: 10px;
-  translate: -50% 0;
+  top: 50%;
+  right: 8px;
+  width: 10px;
+  height: 24px;
+  translate: 0 -50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.1px, transparent 1.4px) 0 0 / 6px 5px;
 }
 
-/* Above the plate so the badge, which lands over the lower half of the plate, never hides it. */
+/* Status text sits before the plate so the badge, landing on the plate, never hides it. */
 .status {
   order: -1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  align-items: flex-end;
+  gap: 5px;
   margin: 0;
   color: var(--label);
   font-family: var(--font-mono), var(--font-jp), monospace;
   line-height: 1;
-  text-align: center;
+  text-align: right;
   white-space: nowrap;
 }
 
 .statusJp {
   font-family: var(--font-jp), sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
 }
 
 .statusEn {
-  font-size: 11px;
-  letter-spacing: 0.24em;
+  font-size: 10px;
+  letter-spacing: 0.2em;
 }
 
-.hint {
-  margin-top: 6px;
+.hintJp,
+.hintEn {
   color: var(--label-muted);
-  font-size: 9.5px;
+  font-size: 9px;
   letter-spacing: 0.14em;
+}
+
+.hintJp {
+  display: none;
+  font-family: var(--font-jp), sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.hintEn {
+  margin-top: 2px;
 }
 
 .reader[data-granted="true"] .status {
   color: var(--led-ok);
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0.35;
-  }
-}
-
-/* Narrow screens: the badge spans the width, so the reader lies on its side in the gap below it. */
-@media (max-width: 900px) {
+/* Must match the side-reader query in id-badge.module.css. */
+@media (min-width: 880px), (max-height: 600px) and (min-aspect-ratio: 7/4) {
   .reader {
-    top: auto;
-    left: 50%;
-    bottom: calc(62px + env(safe-area-inset-bottom));
-    flex-direction: row;
-    gap: 14px;
-    translate: -50% 16px;
+    --r: min(1px, calc((100svh - 128px) / 300));
+
+    top: 50%;
+    bottom: auto;
+    /* Centre of the free space between the badge's right edge and the viewport edge. */
+    left: calc(75% + 115 * var(--base-u));
+    flex-direction: column;
+    gap: calc(18 * var(--r));
+    translate: calc(-50% + 24px) -50%;
   }
 
   .reader[data-visible="true"] {
-    translate: -50% 0;
+    translate: -50% -50%;
   }
 
   .plate {
-    width: 92px;
-    height: 56px;
-    border-width: 4px;
-    border-radius: 12px;
+    width: calc(112 * var(--r));
+    height: calc(176 * var(--r));
+    border-width: calc(6 * var(--r));
+    border-radius: calc(22 * var(--r));
   }
 
   .led {
-    top: 50%;
-    left: 9px;
-    width: 4px;
-    height: 20px;
-    translate: 0 -50%;
+    top: calc(14 * var(--r));
+    left: 50%;
+    width: calc(34 * var(--r));
+    height: calc(5 * var(--r));
+    translate: -50% 0;
   }
 
   .waves {
-    width: 26px;
-    height: 26px;
-    rotate: 0deg;
+    width: calc(46 * var(--r));
+    height: calc(46 * var(--r));
+    rotate: -90deg;
   }
 
   .grille {
-    top: 50%;
-    bottom: auto;
-    left: auto;
-    right: 8px;
-    width: 10px;
-    height: 24px;
-    translate: 0 -50%;
+    top: auto;
+    right: auto;
+    bottom: calc(16 * var(--r));
+    left: 50%;
+    width: calc(40 * var(--r));
+    height: calc(10 * var(--r));
+    translate: -50% 0;
   }
 
   .status {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .hint {
-    margin-top: 2px;
+    align-items: center;
+    gap: calc(6 * var(--r));
+    text-align: center;
   }
 
   .statusJp {
-    font-size: 10px;
+    font-size: calc(12 * var(--r));
   }
 
   .statusEn {
-    font-size: 9px;
-    letter-spacing: 0.16em;
+    font-size: calc(11 * var(--r));
+    letter-spacing: 0.24em;
+  }
+
+  .hintJp {
+    display: block;
+    margin-top: calc(6 * var(--r));
+  }
+
+  .hintJp,
+  .hintEn {
+    font-size: calc(9.5 * var(--r));
+  }
+
+  .hintEn {
+    margin-top: 0;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
   }
 }
 

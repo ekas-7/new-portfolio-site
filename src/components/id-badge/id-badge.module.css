@@ -1,6 +1,12 @@
-/* All badge geometry is authored on a 460×680 grid; --u maps one grid unit to the viewport. */
+/*
+ * All badge geometry is authored on a 460×680 grid; --u maps one grid unit to the viewport.
+ * --chrome-y keeps clear of the theme toggle above and the controls below. --reserve-y is the
+ * strip under the badge where the card reader sits when there is no room beside it.
+ */
 .stage {
-  --base-u: min(1px, calc((100svh - 96px) / 680), calc((100vw - 32px) / 460));
+  --chrome-y: 128px;
+  --reserve-y: 84px;
+  --base-u: min(1px, calc((100svh - var(--chrome-y) - var(--reserve-y)) / 680), calc((100vw - 32px) / 460));
   --u: var(--base-u);
   --render-scale: 2;
   --line: calc(1.2 * var(--u));
@@ -32,10 +38,24 @@
   place-items: center;
   flex: 1;
   min-height: 100svh;
+  padding-bottom: var(--reserve-y);
   overflow: hidden;
   background: var(--stage-bg);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Must match the side-reader query in card-reader.module.css. */
+@media (min-width: 880px), (max-height: 600px) and (min-aspect-ratio: 7/4) {
+  .stage {
+    --reserve-y: 0px;
+  }
+}
+
+@media (max-height: 500px) {
+  .stage {
+    --chrome-y: 112px;
+  }
 }
 
 :global(html[data-theme="dark"]) .stage {

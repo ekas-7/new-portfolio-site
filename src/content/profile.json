@@ -63,7 +63,8 @@
     "reader": {
       "idle": { "jp": "タッチしてください", "en": "TAP BADGE" },
       "hint": { "jp": "目次から選択", "en": "PICK A SECTION" },
-      "granted": { "jp": "認証完了", "en": "ACCESS GRANTED" }
+      "granted": { "jp": "認証完了", "en": "ACCESS GRANTED" },
+      "sound": "/sfx/reader-beep.mp3"
     },
     "door": {
       "room": { "jp": "開発室", "en": "ENGINEERING" },

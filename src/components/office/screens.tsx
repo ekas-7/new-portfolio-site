@@ -4,6 +4,7 @@ import {
   type Achievements,
   type Connect,
   type Experience,
+  type Project,
   type Projects,
   type Resume,
   type SectionId,
@@ -204,33 +205,71 @@ function SkillsBlock() {
 }
 
 function ProjectsScreen({ data }: { data: Projects }) {
+  const featured = data.projects.filter((p) => p.featured);
+  const more = data.projects.filter((p) => !p.featured);
+
   return (
-    <div className={styles.cards}>
-      {data.projects.map((project) => (
-        <section key={project.name} className={styles.card}>
-          <header className={styles.cardHead}>
-            <h3 className={styles.cardName}>{project.name}</h3>
-            <span className={styles.muted}>{project.tagline}</span>
-          </header>
-          {project.award && <p className={styles.award}>★ {project.award}</p>}
-          <ul className={styles.bullets}>
-            {project.description.map((d) => (
-              <li key={d}>{d}</li>
+    <>
+      <div className={styles.cards}>
+        {featured.map((project) => (
+          <ProjectCard key={project.name} project={project} />
+        ))}
+      </div>
+
+      {more.length > 0 && (
+        <>
+          <Heading>MORE BUILDS</Heading>
+          <ul className={styles.builds}>
+            {more.map((project) => (
+              <li key={project.name} className={styles.build}>
+                <h3 className={styles.buildHead}>
+                  <span className={styles.buildName}>{project.name}</span>
+                  <span className={styles.muted}>{project.tagline}</span>
+                </h3>
+                <p className={styles.line}>{project.description.join(" ")}</p>
+                <div className={styles.buildFoot}>
+                  <span className={styles.muted}>{project.stack.join(" · ")}</span>
+                  <span className={styles.buildLinks}>
+                    {project.links.map((link) => (
+                      <External key={link.href} href={link.href} className={styles.buildLink}>
+                        {link.label}
+                      </External>
+                    ))}
+                  </span>
+                </div>
+              </li>
             ))}
           </ul>
-          <Chips items={project.stack} />
-          {project.links.length > 0 && (
-            <div className={styles.cardLinks}>
-              {project.links.map((link) => (
-                <External key={link.href} href={link.href} className={styles.button}>
-                  {link.label}
-                </External>
-              ))}
-            </div>
-          )}
-        </section>
-      ))}
-    </div>
+        </>
+      )}
+    </>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <section className={styles.card}>
+      <header className={styles.cardHead}>
+        <h3 className={styles.cardName}>{project.name}</h3>
+        <span className={styles.muted}>{project.tagline}</span>
+      </header>
+      {project.award && <p className={styles.award}>★ {project.award}</p>}
+      <ul className={styles.bullets}>
+        {project.description.map((d) => (
+          <li key={d}>{d}</li>
+        ))}
+      </ul>
+      <Chips items={project.stack} />
+      {project.links.length > 0 && (
+        <div className={styles.cardLinks}>
+          {project.links.map((link) => (
+            <External key={link.href} href={link.href} className={styles.button}>
+              {link.label}
+            </External>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }
 

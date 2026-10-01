@@ -31,9 +31,10 @@ export function CardReader({
         <span className={styles.statusJp}>{status.jp}</span>
         <span className={styles.statusEn}>{status.en}</span>
         {!granted && (
-          <span className={styles.hint}>
-            {reader.hint.jp} · {reader.hint.en}
-          </span>
+          <>
+            <span className={styles.hintJp}>{reader.hint.jp}</span>
+            <span className={styles.hintEn}>{reader.hint.en}</span>
+          </>
         )}
       </p>
     </div>

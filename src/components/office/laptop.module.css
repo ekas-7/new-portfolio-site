@@ -51,8 +51,12 @@
   --exit-border: rgba(255, 255, 255, 0.1);
 }
 
+/*
+ * The laptop is 0.697× its width tall (16:10 screen plus bezel and base), and the room adds
+ * 148px of padding, gap and controls, so the width is capped to keep everything on one screen.
+ */
 .laptop {
-  --w: min(1120px, 100%, calc((100svh - 190px) * 1.6));
+  --w: min(1120px, 100%, calc((100svh - 156px) * 1.43));
 
   position: relative;
   width: var(--w);
@@ -379,6 +383,60 @@
   }
 
   .navJp {
+    display: none;
+  }
+}
+
+/* Portrait tablets: width is the limit, so let the screen grow taller than 16:10. */
+@media (orientation: portrait) and (min-width: 721px) {
+  .laptop {
+    --w: min(1120px, 100%);
+  }
+
+  .screen {
+    aspect-ratio: auto;
+    height: min(80cqw, calc(100svh - 156px - 7.2cqw));
+  }
+}
+
+/* Landscape phones: drop the vertical chrome and give the screen every pixel of height. */
+@media (max-height: 500px) {
+  .room {
+    gap: 0;
+    padding: 10px 96px;
+  }
+
+  .laptop {
+    --w: min(100%, 900px);
+  }
+
+  .lid {
+    padding: 10px 8px 12px;
+    border-radius: 12px 12px 4px 4px;
+  }
+
+  .camera {
+    top: 3px;
+  }
+
+  .base {
+    height: 10px;
+  }
+
+  /* 20px room padding + 22px bezel + 10px base. */
+  .screen {
+    aspect-ratio: auto;
+    height: calc(100svh - 54px);
+  }
+
+  .controls {
+    position: fixed;
+    top: calc(16px + env(safe-area-inset-top));
+    left: calc(16px + env(safe-area-inset-left));
+    z-index: 10;
+  }
+
+  .exitEn {
     display: none;
   }
 }

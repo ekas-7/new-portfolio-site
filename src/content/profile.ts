@@ -31,7 +31,8 @@ export type BackContent = {
 };
 
 export type OfficeContent = {
-  reader: { idle: Bilingual; hint: Bilingual; granted: Bilingual };
+  /** `sound` plays as the badge touches the reader. */
+  reader: { idle: Bilingual; hint: Bilingual; granted: Bilingual; sound: string };
   door: { room: Bilingual; notice: Bilingual };
   laptop: { host: string; status: string };
   exit: Bilingual;
