@@ -1,0 +1,90 @@
+.toggle {
+  --track: rgba(255, 255, 255, 0.55);
+  --track-border: rgba(0, 0, 0, 0.08);
+  --thumb: #2a2a2a;
+  --icon: #8a8a8a;
+  --icon-active: #f2f2f2;
+
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top));
+  right: calc(16px + env(safe-area-inset-right));
+  z-index: 10;
+  display: flex;
+  padding: 3px;
+  border: 1px solid var(--track-border);
+  border-radius: 999px;
+  background: var(--track);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 6px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+:global(html[data-theme="dark"]) .toggle {
+  --track: rgba(28, 28, 31, 0.7);
+  --track-border: rgba(255, 255, 255, 0.08);
+  --thumb: #e6e6e6;
+  --icon: #6a6a70;
+  --icon-active: #141414;
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--thumb);
+  outline-offset: 3px;
+}
+
+.thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--thumb);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition:
+    translate 0.45s cubic-bezier(0.65, 0, 0.35, 1),
+    background-color 0.3s ease;
+}
+
+:global(html[data-theme="dark"]) .thumb {
+  translate: 30px 0;
+}
+
+.option {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--icon);
+  transition:
+    color 0.3s ease,
+    rotate 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.option svg {
+  width: 15px;
+  height: 15px;
+}
+
+:global(html:not([data-theme="dark"])) .light,
+:global(html[data-theme="dark"]) .dark {
+  color: var(--icon-active);
+}
+
+:global(html[data-theme="dark"]) .light {
+  rotate: -90deg;
+}
+
+:global(html:not([data-theme="dark"])) .dark {
+  rotate: 30deg;
+}

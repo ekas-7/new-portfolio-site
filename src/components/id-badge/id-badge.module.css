@@ -1,0 +1,623 @@
+/* All badge geometry is authored on a 460×680 grid; --u maps one grid unit to the viewport. */
+.stage {
+  --base-u: min(1px, calc((100svh - 96px) / 680), calc((100vw - 32px) / 460));
+  --u: var(--base-u);
+  --render-scale: 2;
+  --line: calc(1.2 * var(--u));
+
+  --ink: #2a2a2a;
+  --on-ink: #e4e4e4;
+  --on-ink-muted: #b3b3b3;
+  --on-ink-rule: #8d8d8d;
+  --stage-bg: radial-gradient(ellipse at 50% 38%, #f5f5f5 0%, #ebebeb 55%, #e1e1e1 100%);
+  --spot: rgba(255, 255, 255, 0.5);
+  --ground-shadow: rgba(0, 0, 0, 0.32);
+  --card-bg: linear-gradient(180deg, #d4d4d4, #cdcdcd);
+  --noise-blend: multiply;
+  --noise-opacity: 0.22;
+  --portrait-filter: grayscale(1) contrast(1.04);
+  --logo-filter: none;
+  --glare-blend: overlay;
+  --focus-ring: rgba(42, 42, 42, 0.5);
+  --hint: #8a8a8a;
+  --hint-pill-bg: rgba(42, 42, 42, 0.82);
+  --hint-pill-fg: #e6e6e6;
+
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 1;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--stage-bg);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:global(html[data-theme="dark"]) .stage {
+  --ink: #d2d2d2;
+  --on-ink: #18181a;
+  --on-ink-muted: #4c4c50;
+  --on-ink-rule: #6a6a6e;
+  --stage-bg: radial-gradient(ellipse at 50% 38%, #1b1b1e 0%, #0e0e10 55%, #060607 100%);
+  --spot: rgba(255, 255, 255, 0.075);
+  --ground-shadow: rgba(0, 0, 0, 0.8);
+  --card-bg: linear-gradient(180deg, #242427, #1a1a1d);
+  --noise-blend: screen;
+  --noise-opacity: 0.1;
+  --portrait-filter: grayscale(1) brightness(0.92) contrast(1.05);
+  --logo-filter: invert(1);
+  --glare-blend: soft-light;
+  --focus-ring: rgba(220, 220, 220, 0.5);
+  --hint: #5c5c61;
+  --hint-pill-bg: rgba(230, 230, 230, 0.9);
+  --hint-pill-fg: #141414;
+}
+
+/* Faint dot grid that fades out toward the edges, dark theme only. */
+:global(html[data-theme="dark"]) .stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at 50% 45%, #000 20%, transparent 70%);
+}
+
+.spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stage[data-focused="true"] {
+  cursor: zoom-out;
+}
+
+.rig {
+  position: relative;
+  width: calc(460 * var(--u));
+  height: calc(680 * var(--u));
+  perspective: calc(1800 * var(--u));
+}
+
+.shadow {
+  position: absolute;
+  inset: calc(40 * var(--u)) calc(36 * var(--u)) calc(10 * var(--u));
+  border-radius: calc(60 * var(--u));
+  background: var(--ground-shadow);
+  filter: blur(calc(34 * var(--u)));
+  pointer-events: none;
+}
+
+/* Rendered at --render-scale and scaled down in JS, so the zoomed state rasterizes at native size. */
+.badge {
+  --u: calc(var(--base-u) * var(--render-scale));
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(460 * var(--u));
+  height: calc(680 * var(--u));
+  margin: calc(-340 * var(--u)) 0 0 calc(-230 * var(--u));
+  transform-style: preserve-3d;
+  cursor: zoom-in;
+  outline: none;
+}
+
+.stage[data-focused="true"] .badge {
+  cursor: zoom-out;
+}
+
+.edge {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(44 * var(--u));
+  background: linear-gradient(180deg, #dedede, #c9c9c9);
+}
+
+:global(html[data-theme="dark"]) .edge {
+  background: linear-gradient(180deg, #2e2e32, #121214);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: calc(44 * var(--u));
+  background:
+    radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(165deg, #f9f9f9 0%, #efefef 45%, #e4e4e4 100%);
+  box-shadow:
+    inset 0 calc(1.5 * var(--u)) 0 rgba(255, 255, 255, 0.95),
+    inset 0 calc(-3 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.07),
+    inset 0 0 0 var(--line) rgba(0, 0, 0, 0.06);
+}
+
+:global(html[data-theme="dark"]) .face {
+  background:
+    radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(165deg, #2b2b2f 0%, #1d1d20 45%, #131315 100%);
+  box-shadow:
+    inset 0 calc(1.5 * var(--u)) 0 rgba(255, 255, 255, 0.14),
+    inset 0 calc(-3 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.45),
+    inset 0 0 0 var(--line) rgba(255, 255, 255, 0.05);
+}
+
+.badge:focus-visible .face {
+  outline: calc(2 * var(--u)) solid var(--focus-ring);
+  outline-offset: calc(-6 * var(--u));
+}
+
+.slot {
+  position: absolute;
+  top: calc(14 * var(--u));
+  left: 50%;
+  translate: -50% 0;
+  width: calc(136 * var(--u));
+  height: calc(24 * var(--u));
+  border-radius: 999px;
+  background: #e8e8e8;
+  box-shadow:
+    inset 0 calc(2 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.16),
+    inset 0 0 0 var(--line) rgba(0, 0, 0, 0.05),
+    0 calc(1 * var(--u)) 0 rgba(255, 255, 255, 0.95);
+}
+
+:global(html[data-theme="dark"]) .slot {
+  background: #0a0a0b;
+  box-shadow:
+    inset 0 calc(2 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.8),
+    inset 0 0 0 var(--line) rgba(0, 0, 0, 0.6),
+    0 calc(1 * var(--u)) 0 rgba(255, 255, 255, 0.08);
+}
+
+.rim {
+  position: absolute;
+  inset: calc(46 * var(--u)) calc(12 * var(--u)) calc(14 * var(--u));
+  border-radius: calc(30 * var(--u));
+  background: linear-gradient(180deg, #fbfbfb, #ededed);
+  box-shadow:
+    0 0 0 var(--line) rgba(0, 0, 0, 0.07),
+    0 calc(2 * var(--u)) calc(5 * var(--u)) rgba(0, 0, 0, 0.12),
+    0 calc(-1 * var(--u)) calc(2 * var(--u)) rgba(255, 255, 255, 0.9),
+    inset 0 calc(1.5 * var(--u)) 0 #fff,
+    inset 0 calc(-2 * var(--u)) calc(3 * var(--u)) rgba(0, 0, 0, 0.06);
+}
+
+:global(html[data-theme="dark"]) .rim {
+  background: linear-gradient(180deg, #2f2f33, #1e1e21);
+  box-shadow:
+    0 0 0 var(--line) rgba(0, 0, 0, 0.55),
+    0 calc(2 * var(--u)) calc(5 * var(--u)) rgba(0, 0, 0, 0.5),
+    0 calc(-1 * var(--u)) calc(2 * var(--u)) rgba(255, 255, 255, 0.05),
+    inset 0 calc(1.5 * var(--u)) 0 rgba(255, 255, 255, 0.12),
+    inset 0 calc(-2 * var(--u)) calc(3 * var(--u)) rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- printed card ---------- */
+
+.card {
+  position: absolute;
+  top: calc(60 * var(--u));
+  left: calc(23 * var(--u));
+  width: calc(414 * var(--u));
+  height: calc(594 * var(--u));
+  overflow: hidden;
+  border-radius: calc(14 * var(--u));
+  background: var(--card-bg);
+  color: var(--ink);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  box-shadow:
+    inset 0 calc(1 * var(--u)) calc(3 * var(--u)) rgba(0, 0, 0, 0.2),
+    inset 0 0 0 var(--line) rgba(0, 0, 0, 0.08);
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: calc(2 * var(--u));
+  line-height: 1;
+}
+
+.labelJp {
+  font-family: var(--font-jp), sans-serif;
+  font-size: calc(7.5 * var(--u));
+  font-weight: 600;
+}
+
+.labelEn {
+  font-size: calc(6.5 * var(--u));
+  letter-spacing: 0.02em;
+}
+
+/* portrait */
+
+.portrait {
+  position: absolute;
+  top: calc(36 * var(--u));
+  left: calc(11 * var(--u));
+  width: calc(186 * var(--u));
+  height: calc(218 * var(--u));
+  border: var(--line) solid var(--ink);
+}
+
+.portraitImage {
+  position: absolute;
+  inset: calc(3 * var(--u));
+  overflow: hidden;
+}
+
+.portraitImage img {
+  object-fit: cover;
+  object-position: 50% 100%;
+  filter: var(--portrait-filter);
+}
+
+.corner {
+  position: absolute;
+  width: calc(11 * var(--u));
+  height: calc(11 * var(--u));
+  border: 0 solid var(--ink);
+}
+
+.cornerTl {
+  top: calc(-3 * var(--u));
+  left: calc(-3 * var(--u));
+  border-top-width: calc(3 * var(--u));
+  border-left-width: calc(3 * var(--u));
+}
+
+.cornerTr {
+  top: calc(-3 * var(--u));
+  right: calc(-3 * var(--u));
+  border-top-width: calc(3 * var(--u));
+  border-right-width: calc(3 * var(--u));
+}
+
+.cornerBl {
+  bottom: calc(-3 * var(--u));
+  left: calc(-3 * var(--u));
+  border-bottom-width: calc(3 * var(--u));
+  border-left-width: calc(3 * var(--u));
+}
+
+.cornerBr {
+  bottom: calc(-3 * var(--u));
+  right: calc(-3 * var(--u));
+  border-bottom-width: calc(3 * var(--u));
+  border-right-width: calc(3 * var(--u));
+}
+
+/* verified stamp */
+
+.stamp {
+  position: absolute;
+  top: calc(35 * var(--u));
+  right: calc(11 * var(--u));
+  width: calc(120 * var(--u));
+}
+
+.stampBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(4 * var(--u));
+  height: calc(45 * var(--u));
+  background: var(--ink);
+  color: var(--on-ink);
+  line-height: 1;
+}
+
+.stampJp {
+  font-family: var(--font-jp), sans-serif;
+  font-size: calc(11 * var(--u));
+  letter-spacing: 0.06em;
+}
+
+.stampEn {
+  font-size: calc(10.5 * var(--u));
+  letter-spacing: 0.1em;
+}
+
+.stampStripes {
+  width: calc(110 * var(--u));
+  height: calc(10 * var(--u));
+  margin-top: calc(3 * var(--u));
+  background: repeating-linear-gradient(
+    60deg,
+    var(--ink) 0 calc(3.6 * var(--u)),
+    transparent calc(3.6 * var(--u)) calc(7 * var(--u))
+  );
+  clip-path: polygon(0 0, 100% 0, calc(100% - 6 * var(--u)) 100%, 0 100%);
+}
+
+/* department / title */
+
+.field {
+  position: absolute;
+  top: calc((144 + var(--index, 0) * 70) * var(--u));
+  left: calc(211 * var(--u));
+  right: calc(11 * var(--u));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(40 * var(--u));
+  border-bottom: var(--line) solid var(--ink);
+}
+
+.fieldValue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(4 * var(--u));
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.fieldJp {
+  font-family: var(--font-jp), sans-serif;
+  font-size: calc(12.5 * var(--u));
+  font-weight: 500;
+}
+
+.fieldEn {
+  font-size: calc(11 * var(--u));
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* nameplate */
+
+.nameplate {
+  position: absolute;
+  top: calc(273 * var(--u));
+  left: calc(11 * var(--u));
+  right: calc(11 * var(--u));
+  display: flex;
+  height: calc(88 * var(--u));
+  border: var(--line) solid var(--ink);
+}
+
+.nameMain {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: calc(14 * var(--u));
+  padding: calc(6 * var(--u)) calc(10 * var(--u)) 0;
+  line-height: 1;
+}
+
+.nameLabel {
+  position: absolute;
+  top: calc(10 * var(--u));
+  left: calc(10 * var(--u));
+}
+
+.nameJp {
+  font-family: var(--font-jp), sans-serif;
+  font-size: calc(20 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.nameEn {
+  margin-right: -0.36em;
+  font-size: calc(11 * var(--u));
+  letter-spacing: 0.36em;
+}
+
+.signature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(89 * var(--u));
+  background: var(--ink);
+  color: var(--on-ink);
+  line-height: 1;
+}
+
+.signatureMark {
+  width: calc(40 * var(--u));
+  height: calc(30 * var(--u));
+}
+
+.signatureRule {
+  width: calc(70 * var(--u));
+  height: var(--line);
+  margin: calc(6 * var(--u)) 0 calc(7 * var(--u));
+  background: var(--on-ink-rule);
+}
+
+.signatureJp {
+  font-family: var(--font-jp), sans-serif;
+  font-size: calc(7.5 * var(--u));
+}
+
+.signatureEn {
+  margin-top: calc(3 * var(--u));
+  font-size: calc(6.5 * var(--u));
+  letter-spacing: 0.04em;
+}
+
+/* issuer grid */
+
+.grid {
+  position: absolute;
+  top: calc(386 * var(--u));
+  left: calc(11 * var(--u));
+  right: calc(11 * var(--u));
+  display: grid;
+  grid-template-columns: 137fr 117fr 138fr;
+  height: calc(116 * var(--u));
+}
+
+.column {
+  display: grid;
+  grid-auto-rows: 1fr;
+  border: var(--line) solid var(--ink);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(3.5 * var(--u));
+  padding: 0 calc(8 * var(--u));
+  line-height: 1;
+}
+
+.cell + .cell {
+  border-top: var(--line) solid var(--ink);
+}
+
+.column[data-align="end"] .cell {
+  align-items: flex-end;
+}
+
+/* Mono first so Latin labels match the values; Japanese glyphs fall through to the JP font. */
+.cellLabel {
+  font-family: var(--font-mono), var(--font-jp), monospace;
+  font-size: calc(7 * var(--u));
+  font-weight: 500;
+}
+
+.cellValue {
+  font-size: calc(6.8 * var(--u));
+  letter-spacing: 0.03em;
+}
+
+.logoCell {
+  display: grid;
+  place-items: center;
+  border-block: var(--line) solid var(--ink);
+}
+
+.logo {
+  width: calc(62 * var(--u));
+  height: calc(62 * var(--u));
+  filter: var(--logo-filter);
+}
+
+/* bottom bar */
+
+.bar {
+  position: absolute;
+  top: calc(526 * var(--u));
+  left: calc(11 * var(--u));
+  right: calc(11 * var(--u));
+  height: calc(50 * var(--u));
+  background: var(--ink);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 72%,
+    calc(100% - 15 * var(--u)) 100%,
+    calc(52% + 18 * var(--u)) 100%,
+    52% 48%,
+    0 48%
+  );
+}
+
+.barText {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(24 * var(--u));
+  color: var(--on-ink-muted);
+  font-size: calc(7.5 * var(--u));
+  letter-spacing: 0.14em;
+  line-height: calc(24 * var(--u));
+  text-align: center;
+  white-space: pre;
+}
+
+.barStripes {
+  position: absolute;
+  top: calc(5 * var(--u));
+  display: flex;
+  gap: calc(6.5 * var(--u));
+  height: calc(14 * var(--u));
+}
+
+.barStripes > span {
+  width: calc(4.5 * var(--u));
+  height: 100%;
+  background: var(--on-ink);
+  transform: skewX(-22deg);
+}
+
+.barStripesStart {
+  left: calc(14 * var(--u));
+}
+
+.barStripesEnd {
+  right: calc(14 * var(--u));
+}
+
+/* ---------- light ---------- */
+
+.glare,
+.sheen,
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.glare {
+  mix-blend-mode: var(--glare-blend);
+}
+
+.sheen {
+  background-size: 300% 300%;
+  mix-blend-mode: screen;
+}
+
+.shade {
+  mix-blend-mode: multiply;
+}
+
+.hint {
+  position: absolute;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  left: 50%;
+  translate: -50% 0;
+  padding: 6px 14px 6px calc(14px + 0.24em);
+  border-radius: 999px;
+  color: var(--hint);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+}
+
+.hint[data-focused="true"] {
+  background: var(--hint-pill-bg);
+  color: var(--hint-pill-fg);
+}

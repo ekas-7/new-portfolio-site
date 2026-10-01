@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "title": "Ekaspreet Singh Atwal",
+    "description": "Software Engineer at Increff. Previously SDE Intern at Microsoft and Prava Payments."
+  },
+  "badge": {
+    "portrait": {
+      "src": "/badge/ekas.png",
+      "alt": "Portrait of Ekaspreet Singh Atwal"
+    },
+    "status": { "jp": "検証済み", "en": "VERIFIED" },
+    "fields": [
+      {
+        "label": { "jp": "所属部署", "en": "DEPARTMENT" },
+        "value": { "jp": "エンジニアリング部", "en": "ENGINEERING" }
+      },
+      {
+        "label": { "jp": "役職", "en": "TITLE" },
+        "value": { "jp": "ソフトウェアエンジニア", "en": "SOFTWARE ENGINEER" }
+      }
+    ],
+    "name": {
+      "label": { "jp": "名前", "en": "NAME" },
+      "value": { "jp": "エカスプリート・アトワル", "en": "EKASPREET SINGH ATWAL" }
+    },
+    "signature": { "jp": "サイン", "en": "SIGNATURE" },
+    "logo": {
+      "src": "/badge/increff.svg",
+      "alt": "Increff"
+    },
+    "details": {
+      "start": [
+        { "label": "インクレフ", "value": "INCREFF" },
+        { "label": "発行日", "value": "ISSUED: 2026.01" },
+        { "label": "勤務地", "value": "LOCATION: BANGALORE" }
+      ],
+      "end": [
+        { "label": "ソーシャルメディア", "value": "@ekas-7" },
+        { "label": "DATE JOINED", "value": "2026.01" },
+        { "label": "ID NUMBER", "value": "IF-26-0007" }
+      ]
+    },
+    "division": "INCREFF ENGINEERING"
+  }
+}
